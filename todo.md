@@ -27,8 +27,9 @@ https://github.com/gitcoinco/passport-scorer/blob/main/examples/example-score-a-
 - [ ] Create Passport
 - [ ] Verify stamps
 
+- [x] Setup project
 - [ ] Connect Wallet
-  - [ ] Install RainbowKit
+  - [x] Install RainbowKit and Wagmi
   - [ ] Add Provider
   - [ ] Add ConnectButton
 - [ ] Fetch Passport for address
