@@ -23,25 +23,26 @@ https://github.com/gitcoinco/passport-scorer/blob/main/examples/example-score-a-
 2. Submit Gitcoin Passport
 3. Press button to receive testnet ETH if passport score > threshold
 
-- [ ] Create Scorer in API (get api key)
-- [ ] Create Passport
-- [ ] Verify stamps
+- [x] Create Scorer in API (get api key)
+- [x] Create Passport
+- [x] Verify stamps
 
 - [x] Setup project
-- [ ] Connect Wallet
+- [x] Connect Wallet
   - [x] Install RainbowKit and Wagmi
-  - [ ] Add Provider
-  - [ ] Add ConnectButton
-- [ ] Fetch Passport for address
-  - [ ] `axios.post(/registry/submit-passport, { address, community: scorerId })`
-- [ ] Update score
-  - [ ] `axios.post(/registry/score/${scorerId}/${address})`
+  - [x] Add Provider
+  - [x] Add ConnectButton
+- [x] Fetch Passport for address
+  - [x] `axios.post(/registry/submit-passport, { address, community: scorerId })`
+- [x] Update score
+  - [x] `axios.post(/registry/score/${scorerId}/${address})`
   - [ ] Poll in interval if `status === "PROCESSING"`
-- [ ] Display Passport Score
-  - [ ] You must have <x> / <threshold> to request ETH from faucet
-- [ ] Request ETH
-  - [ ] Button
-  - [ ] Call API
+- [x] Display Passport Score
+  - [x] You must have <x> / <threshold> to request ETH from faucet
+- [x] Request Tokens
+  - [x] Button
+  - [x] Call API
 - [ ] API
-  - [ ] Check score for address via scorerId
-  - [ ] Relayer funded with test ETH
+  - [x] Rate limiter
+  - [x] Check score for address via scorerId
+  - [ ] Transfer tokens

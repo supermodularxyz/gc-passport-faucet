@@ -1,22 +1,18 @@
 import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
-import { Inter } from "next/font/google";
 import { siteConfig } from "config/site";
-import { Providers } from "./providers";
-
-const inter = Inter({ subsets: ["latin"] });
+import { PassportProvider } from "lib/passport/Provider";
+import { WalletProvider } from "providers/Wallet";
 
 export const metadata = { ...siteConfig };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
+      <body className="bg-primary-50 text-primary-950">
+        <WalletProvider>
+          <PassportProvider>{props.children}</PassportProvider>
+        </WalletProvider>
       </body>
     </html>
   );

@@ -1,3 +1,24 @@
+# Gitcoin Passport Faucet
+
+### Folder structure
+
+```sh
+
+/app
+    /faucet
+        /route.ts # Backend API for transferring tokens
+    layout.tsx    # Layout and wrap providers
+    page.tsx      # Index page
+/components
+    Checklist.tsx # This is where the action
+/lib
+    /passport     # Provider, hooks, and API for Gitcoin Passport
+    /redis        # Request rate limiter
+    /viem         # Transfer tokens
+/providers
+    Wallet.tsx    # Web3 Wallet provider with RainbowKit, Wagmi and Viem
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

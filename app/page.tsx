@@ -1,16 +1,13 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { PropsWithChildren } from "react";
+import { Checklist } from "components/Checklist";
+import { PassportProvider } from "providers/Passport";
 
-function Container({ children }: PropsWithChildren) {
-  return <div className="max-w-screen-sm container mx-auto">{children}</div>;
-}
 export default function Home() {
   return (
-    <main className="">
-      <Container>
-        <ConnectButton />
-        <h1>gitcoing passport faucet</h1>
-      </Container>
+    <main className="max-w-screen-md container mx-auto mt-24 font-mono">
+      <h1 className="text-4xl text-center mb-8 font-bold">
+        gitcoin passport faucet
+      </h1>
+      <Checklist />
     </main>
   );
 }

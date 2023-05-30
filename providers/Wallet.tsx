@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+
 import {
   RainbowKitProvider,
   getDefaultWallets,
@@ -35,7 +36,7 @@ const { wallets } = getDefaultWallets({
   chains,
 });
 
-const demoAppInfo = {
+const appInfo = {
   appName: siteConfig.title,
 };
 
@@ -58,12 +59,12 @@ const wagmiConfig = createConfig({
   webSocketPublicClient,
 });
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
   return (
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains} appInfo={demoAppInfo}>
+      <RainbowKitProvider chains={chains} appInfo={appInfo}>
         {mounted && children}
       </RainbowKitProvider>
     </WagmiConfig>
