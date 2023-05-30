@@ -8,14 +8,14 @@ import { usePassport } from "lib/passport/hooks";
 import { Checkbox } from "./Form";
 import { useAccount, useMutation } from "wagmi";
 import axios from "axios";
+import { PropsWithChildren } from "react";
 
 function PassportScore() {
   const { score, submit } = usePassport();
-  const error = score.error || submit.error;
+  const error = submit.error || score.error;
   return (
     <div className="flex items-center flex-col justify-center">
       <div className="uppercase">Passport score</div>
-      {error ? <pre>{JSON.stringify(error, null, 2)}</pre> : null}
       <div className="text-4xl font-mono mb-4">
         {score.data?.score || "?"} / {threshold}
       </div>
@@ -23,6 +23,8 @@ function PassportScore() {
       <Button onClick={submit.mutate} disabled={submit.isLoading}>
         Refresh Passport
       </Button>
+      {score.data ? <pre>{JSON.stringify(score.data, null, 2)}</pre> : null}
+      {error ? <pre>{JSON.stringify(error, null, 2)}</pre> : null}
     </div>
   );
 }
@@ -48,32 +50,32 @@ export function Checklist() {
   return (
     <div>
       <ol className="ml-8 flex gap-4 flex-col">
-        <li className="mb-6">
-          <div className="flex items-center gap-3">
+        <ListItem>
+          <ListHeader>
             1. <Checkbox checked={!!address} />
             Connect Wallet
-          </div>
-          <div className="p-4 flex justify-center">
+          </ListHeader>
+          <ListContent>
             <ConnectButton />
-          </div>
-        </li>
+          </ListContent>
+        </ListItem>
 
-        <li className="mb-6">
-          <div className="flex items-center gap-3">
+        <ListItem>
+          <ListHeader>
             2. <Checkbox checked={Number(score) >= threshold} />
             Submit Gitcoin Passport
-          </div>
-          <div className="p-4 flex justify-center">
+          </ListHeader>
+          <ListContent>
             <PassportScore />
-          </div>
-        </li>
+          </ListContent>
+        </ListItem>
 
-        <li className="mb-6">
-          <div className="flex items-center gap-3">
+        <ListItem>
+          <ListHeader>
             3. <Checkbox checked={faucet.isSuccess} />
             Request tokens from faucet
-          </div>
-          <div className="p-4 flex justify-center">
+          </ListHeader>
+          <ListContent>
             <div className="flex flex-col items-center">
               <Button
                 onClick={() => faucet.mutate()}
@@ -84,9 +86,20 @@ export function Checklist() {
               <pre>{JSON.stringify(faucet.error)}</pre>
               <pre>{JSON.stringify(faucet.data)}</pre>
             </div>
-          </div>
-        </li>
+          </ListContent>
+        </ListItem>
       </ol>
     </div>
   );
 }
+
+const ListItem = (props: PropsWithChildren) => (
+  <li className="mb-6" {...props} />
+);
+
+const ListHeader = (props: PropsWithChildren) => (
+  <div className="flex items-center gap-3 " {...props} />
+);
+const ListContent = (props: PropsWithChildren) => (
+  <div className="p-4 flex justify-center" {...props} />
+);
