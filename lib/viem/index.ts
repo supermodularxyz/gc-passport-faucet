@@ -1,4 +1,4 @@
-import { ConfigSchema } from "config/env";
+import z from "zod";
 import {
   Address,
   createWalletClient,
@@ -8,8 +8,8 @@ import {
 } from "viem";
 import { mnemonicToAccount } from "viem/accounts";
 import * as chains from "viem/chains";
-import { erc20ABI } from "wagmi";
-import z from "zod";
+
+import { ConfigSchema } from "config/env";
 
 export async function transferTokens({
   to,
@@ -27,17 +27,49 @@ export async function transferTokens({
   });
 
   if (token && decimals) {
-    // Transfer ERC20
+    console.log("Transfering ERC20 tokens");
+    console.log({ to, value: parseUnits(`${amount}`, decimals) });
     return wallet.writeContract({
       account,
       address: token,
-      abi: erc20ABI,
+      abi,
       functionName: "transfer",
       args: [to, parseUnits(`${amount}`, decimals)],
     });
   } else {
-    // Transfer ETH
+    console.log("Transferring ETH");
     console.log({ to, value: parseEther(`${amount}`) });
     return wallet.sendTransaction({ to, value: parseEther(`${amount}`) });
   }
 }
+
+export function createMessage({ amount, token }: z.infer<typeof ConfigSchema>) {
+  return `${amount} ${token ? "tokens" : "ETH"} transferred!`;
+}
+
+const abi = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transfer",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];

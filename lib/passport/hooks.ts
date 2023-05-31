@@ -14,12 +14,17 @@ export function usePassportScore(address?: Address) {
   return useQuery(
     ["score", address],
     () =>
-      api.getScore(address as Address).then((r) => {
-        if (r.status === PassportStatus.PROCESSING) {
-          console.log("Retry until status is DONE or ERROR", r);
-        }
-        return r;
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ score: 40 });
+        }, 1000);
       }),
+    // api.getScore(address as Address).then((r) => {
+    //   if (r.status === PassportStatus.PROCESSING) {
+    //     console.log("Retry until status is DONE or ERROR", r);
+    //   }
+    //   return r;
+    // }),
     { enabled: !!address, retry: false }
   );
 }

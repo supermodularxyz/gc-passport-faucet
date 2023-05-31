@@ -1,14 +1,14 @@
 "use client";
-import { Button } from "./Button";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-
-const threshold = Number(process.env.NEXT_PUBLIC_SCORE_THRESHOLD || 0);
-
-import { usePassport } from "lib/passport/hooks";
-import { Checkbox } from "./Form";
-import { useAccount, useMutation } from "wagmi";
 import axios from "axios";
 import { PropsWithChildren } from "react";
+import { useAccount, useMutation } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+
+import { usePassport } from "lib/passport/hooks";
+import { Button } from "./Button";
+import { Checkbox } from "./Form";
+
+const threshold = Number(process.env.NEXT_PUBLIC_SCORE_THRESHOLD || 0);
 
 function PassportScore() {
   const { score, submit } = usePassport();
@@ -20,11 +20,14 @@ function PassportScore() {
         {score.data?.score || "?"} / {threshold}
       </div>
 
-      <Button onClick={submit.mutate} disabled={submit.isLoading}>
+      <Button
+        onClick={submit.mutate}
+        disabled={submit.isLoading || score.isLoading}
+      >
         Refresh Passport
       </Button>
-      {score.data ? <pre>{JSON.stringify(score.data, null, 2)}</pre> : null}
-      {error ? <pre>{JSON.stringify(error, null, 2)}</pre> : null}
+      {/* {score.data ? <pre>{JSON.stringify(score.data, null, 2)}</pre> : null}
+      {error ? <pre>{JSON.stringify(error, null, 2)}</pre> : null} */}
     </div>
   );
 }
@@ -40,6 +43,30 @@ export function useFaucet() {
       })
   );
 }
+
+function Section({
+  label,
+  children,
+  disabled,
+}: { label: string; disabled?: boolean } & PropsWithChildren) {
+  return (
+    <li style={disabled ? { opacity: 0.7, pointerEvents: "none" } : {}}>
+      <div className="mb-2 bg-primary-900 uppercase tracking-wider text-primary-50 text-center p-2">
+        {label}
+      </div>
+      <div className="flex justify-center p-8">{children}</div>
+    </li>
+  );
+}
+function Alert({ title, children }: { title: string } & PropsWithChildren) {
+  return (
+    <div className="max-w-md border-2 border-dashed border-primary-600 p-4">
+      <div className="mb-2 font-bold">{title}</div>
+      <div>{children}</div>
+    </div>
+  );
+}
+
 export function Checklist() {
   const faucet = useFaucet();
   const { address, score } = usePassport();
@@ -49,57 +76,43 @@ export function Checklist() {
 
   return (
     <div>
-      <ol className="ml-8 flex gap-4 flex-col">
-        <ListItem>
-          <ListHeader>
-            1. <Checkbox checked={!!address} />
-            Connect Wallet
-          </ListHeader>
-          <ListContent>
-            <ConnectButton />
-          </ListContent>
-        </ListItem>
+      <ol className="flex gap-4 flex-col">
+        <Section label="1. Connect wallet">
+          <ConnectButton />
+        </Section>
+        <Section label="2. Passport check" disabled={!address}>
+          <PassportScore />
+        </Section>
 
-        <ListItem>
-          <ListHeader>
-            2. <Checkbox checked={Number(score) >= threshold} />
-            Submit Gitcoin Passport
-          </ListHeader>
-          <ListContent>
-            <PassportScore />
-          </ListContent>
-        </ListItem>
-
-        <ListItem>
-          <ListHeader>
-            3. <Checkbox checked={faucet.isSuccess} />
-            Request tokens from faucet
-          </ListHeader>
-          <ListContent>
-            <div className="flex flex-col items-center">
+        <Section
+          label="3. Token request"
+          disabled={!(Number(score.data?.score) >= threshold)}
+        >
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-center">
               <Button
                 onClick={() => faucet.mutate()}
                 disabled={faucet.isLoading}
               >
                 Request tokens
               </Button>
-              <pre>{JSON.stringify(faucet.error)}</pre>
-              <pre>{JSON.stringify(faucet.data)}</pre>
             </div>
-          </ListContent>
-        </ListItem>
+
+            {faucet.data?.tx ? (
+              <div>
+                <div className="text-center mb-2">{faucet.data?.message}</div>
+                Transaction hash:{" "}
+                <pre className="text-sm">{faucet.data?.tx}</pre>
+              </div>
+            ) : null}
+            {faucet.error ? (
+              <pre className="whitespace-pre-wrap text-sm">
+                {JSON.stringify({ message: faucet.error }, null, 2)}
+              </pre>
+            ) : null}
+          </div>
+        </Section>
       </ol>
     </div>
   );
 }
-
-const ListItem = (props: PropsWithChildren) => (
-  <li className="mb-6" {...props} />
-);
-
-const ListHeader = (props: PropsWithChildren) => (
-  <div className="flex items-center gap-3 " {...props} />
-);
-const ListContent = (props: PropsWithChildren) => (
-  <div className="p-4 flex justify-center" {...props} />
-);
