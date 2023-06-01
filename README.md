@@ -6,11 +6,12 @@
 
 /app
     /faucet
-        /route.ts # Backend API for transferring tokens
+        route.ts  # Backend API for transferring tokens
     layout.tsx    # Layout and wrap providers
     page.tsx      # Index page
 /components
-    Checklist.tsx # This is where the action
+    Button.tsx    #
+    Faucet.tsx    # Component for connecting wallet, passport, and request tokens
 /lib
     /passport     # Provider, hooks, and API for Gitcoin Passport
     /redis        # Request rate limiter
