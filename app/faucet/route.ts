@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
     // 3. Verify score >= threshold
     if (!(Number(score) >= 10)) {
-      // throw new Error("Score must be above threshold");
+      throw new Error("Score must be above threshold");
     }
 
     // 4. Transfer tokens

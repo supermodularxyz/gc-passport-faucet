@@ -6,18 +6,19 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import { usePassport } from "lib/passport/hooks";
 import { Button } from "./Button";
-import { Checkbox } from "./Form";
 
 const threshold = Number(process.env.NEXT_PUBLIC_SCORE_THRESHOLD || 0);
 
-function PassportScore() {
+function formatScore(score?: string) {
+  return score ? Number(score).toFixed(2) : "?";
+}
+export function PassportScore() {
   const { score, submit } = usePassport();
-  const error = submit.error || score.error;
   return (
     <div className="flex items-center flex-col justify-center">
       <div className="uppercase">Passport score</div>
       <div className="text-4xl font-mono mb-4">
-        {score.data?.score || "?"} / {threshold}
+        {formatScore(score.data?.score)} / {threshold}
       </div>
 
       <Button
@@ -26,8 +27,6 @@ function PassportScore() {
       >
         Refresh Passport
       </Button>
-      {/* {score.data ? <pre>{JSON.stringify(score.data, null, 2)}</pre> : null}
-      {error ? <pre>{JSON.stringify(error, null, 2)}</pre> : null} */}
     </div>
   );
 }
@@ -58,16 +57,8 @@ function Section({
     </li>
   );
 }
-function Alert({ title, children }: { title: string } & PropsWithChildren) {
-  return (
-    <div className="max-w-md border-2 border-dashed border-primary-600 p-4">
-      <div className="mb-2 font-bold">{title}</div>
-      <div>{children}</div>
-    </div>
-  );
-}
 
-export function Checklist() {
+export function Faucet() {
   const faucet = useFaucet();
   const { address, score } = usePassport();
   console.log("faucet", faucet.data, faucet.error);

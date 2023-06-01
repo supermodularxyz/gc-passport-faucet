@@ -1,4 +1,4 @@
-import { Checklist } from "components/Checklist";
+import { Faucet } from "components/Faucet";
 
 export default function Home() {
   return (
@@ -6,7 +6,7 @@ export default function Home() {
       <h1 className="text-4xl text-center mb-8 font-bold">
         gitcoin passport faucet
       </h1>
-      <Checklist />
+      <Faucet />
     </main>
   );
 }
