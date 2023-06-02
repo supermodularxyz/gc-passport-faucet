@@ -1,5 +1,7 @@
 # Gitcoin Passport Faucet
 
+An Ethereum faucet using Gitcoin Passport. Supports ETH and ERC20 tokens. Configurable network, score, ratelimit.
+
 ### Folder structure
 
 ```sh
@@ -24,7 +26,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+Configure environment varialbes:
+
+```bash
+copy .env.sample .env
+```
+
+Run the development server:
 
 ```bash
 npm run dev
