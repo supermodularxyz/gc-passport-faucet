@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 import * as passport from "lib/passport/api";
 import { checkRateLimit, redis } from "lib/redis";
-import { createMessage, transferTokens } from "lib/viem";
+import { createInfoMessage, createMessage, transferTokens } from "lib/viem";
 import { config } from "config/env";
-
-const ratelimit = Number(process.env.RATELIMIT) * 60 * 60;
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,8 +24,8 @@ export async function POST(req: NextRequest) {
     const tx = await transferTokens({ to: address, ...config });
 
     // 5. Set cooldown
-    await redis.set(address, Date.now() + ratelimit * 1000, {
-      ex: ratelimit,
+    await redis.set(address, Date.now() + config.ratelimit * 1000, {
+      ex: config.ratelimit,
     });
 
     return NextResponse.json({
@@ -38,4 +36,8 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     return new Response((error as Error).message, { status: 500 });
   }
+}
+
+export async function GET() {
+  return NextResponse.json(createInfoMessage(config));
 }

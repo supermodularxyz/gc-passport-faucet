@@ -47,6 +47,18 @@ export function createMessage({ amount, token }: z.infer<typeof ConfigSchema>) {
   return `${amount} ${token ? "tokens" : "ETH"} transferred!`;
 }
 
+export function createInfoMessage({
+  amount,
+  chain,
+  ratelimit,
+  token,
+  mnemonic,
+}: z.infer<typeof ConfigSchema>) {
+  const { address } = mnemonicToAccount(mnemonic);
+
+  return { address, amount, chain, ratelimit, token };
+}
+
 const abi = [
   {
     inputs: [

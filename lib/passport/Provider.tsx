@@ -42,7 +42,7 @@ const queryClient = new QueryClient();
 export function PassportProvider({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Provider>{children}</Provider>;
+      <Provider>{children}</Provider>
     </QueryClientProvider>
   );
 }
