@@ -9,6 +9,10 @@ export const ConfigSchema = z.object({
   token: z
     .custom<`0x${string}`>((val) => (val as string).startsWith("0x"))
     .optional(),
+  ratelimit: z
+    .number()
+    .gt(0)
+    .transform((v) => Number(v)),
   amount: z.number().gt(0),
   decimals: z.number().min(1).optional(),
   chain: z.enum(Object.keys(chains) as any),
@@ -28,6 +32,7 @@ export const ConfigSchema = z.object({
 });
 
 export const config = {
+  ratelimit: Number(process.env.RATELIMIT) * 60 * 60,
   token: process.env.TOKEN_ADDRESS
     ? (process.env.TOKEN_ADDRESS as `0x${string}`)
     : undefined,

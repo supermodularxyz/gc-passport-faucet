@@ -1,24 +1,33 @@
 "use client";
 import axios from "axios";
 import { PropsWithChildren } from "react";
-import { useAccount, useMutation } from "wagmi";
+import { useAccount, useBalance, useMutation, useToken } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import { usePassport } from "lib/passport/hooks";
 import { Button } from "./Button";
+import { useFaucet, useInfo } from "hooks/useFaucet";
+import { Loading } from "./Loading";
 
 const threshold = Number(process.env.NEXT_PUBLIC_SCORE_THRESHOLD || 0);
 
 function formatScore(score?: string) {
-  return score ? Number(score).toFixed(2) : "?";
+  return score ? Number(score).toFixed(2) : 0;
 }
 export function PassportScore() {
   const { score, submit } = usePassport();
   return (
     <div className="flex items-center flex-col justify-center">
       <div className="uppercase">Passport score</div>
-      <div className="text-4xl font-mono mb-4">
-        {formatScore(score.data?.score)} / {threshold}
+      <div className="text-4xl font-mono mb-4 flex gap-2">
+        {score.isLoading || submit.isLoading ? (
+          <Loading />
+        ) : (
+          formatScore(score.data?.score)
+        )}
+
+        <span>/</span>
+        {threshold}
       </div>
 
       <Button
@@ -28,18 +37,6 @@ export function PassportScore() {
         Refresh Passport
       </Button>
     </div>
-  );
-}
-
-export function useFaucet() {
-  const { address } = useAccount();
-  return useMutation(() =>
-    axios
-      .post("/faucet", { address })
-      .then((r) => r.data)
-      .catch((err) => {
-        throw err.response.data;
-      })
   );
 }
 
@@ -58,6 +55,36 @@ function Section({
   );
 }
 
+function FaucetInfo() {
+  const { data: info, isLoading } = useInfo();
+  const token = useToken({
+    address: info?.token,
+    enabled: Boolean(info?.token),
+  });
+  const balance = useBalance({
+    address: info?.address,
+    token: info?.token,
+    watch: true,
+    enabled: Boolean(info?.address),
+  });
+
+  console.log("balance", balance.data);
+
+  return (
+    <div className="container max-screen-w-sm mx-auto">
+      <div className="flex flex-col gap-1 text-sm ">
+        <div>Faucet network: {info?.chain}</div>
+        <div>Faucet address: {info?.address}</div>
+        <div>Faucet balance: {balance.data?.formatted}</div>
+        <div>
+          Faucet amount: {info?.amount} {token.data?.symbol || "ETH"}
+        </div>
+        <div>Faucet ratelimit: {info?.ratelimit} seconds</div>
+      </div>
+    </div>
+  );
+}
+
 export function Faucet() {
   const faucet = useFaucet();
   const { address, score } = usePassport();
@@ -67,7 +94,7 @@ export function Faucet() {
 
   return (
     <div>
-      <ol className="flex gap-4 flex-col">
+      <ol className="flex gap-4 flex-col mb-8">
         <Section label="1. Connect wallet">
           <ConnectButton />
         </Section>
@@ -104,6 +131,7 @@ export function Faucet() {
           </div>
         </Section>
       </ol>
+      <FaucetInfo />
     </div>
   );
 }
