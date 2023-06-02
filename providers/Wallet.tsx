@@ -13,27 +13,14 @@ import {
   ledgerWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  goerli,
-  hardhat,
-} from "wagmi/chains";
+import * as ALL_CHAINS from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { siteConfig } from "config/site";
 
+const chain = process.env.NEXT_PUBLIC_CHAIN || "goerli";
+
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true"
-      ? [goerli, hardhat]
-      : []),
-  ],
+  [ALL_CHAINS[chain as keyof typeof ALL_CHAINS]],
   [publicProvider()]
 );
 
