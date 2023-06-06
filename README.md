@@ -34,22 +34,21 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Environment variables
 
 ```sh
-WALLET_MNEMONIC=""              # Wallet containing tokens
-NEXT_PUBLIC_CHAIN="goerli"      # Chain - must be one of wagmi/chains
-TOKEN_ADDRESS=""                # Optional token - will use ETH if not set
-TOKEN_DECIMALS="18"             # Defaults to 18 - be mindful that some tokens (USDC) uses 6 decimals
-TOKEN_AMOUNT="0.001"            # Amount of ETH or tokens to transfer
+WALLET_MNEMONIC=""               # Wallet containing tokens
+NEXT_PUBLIC_CHAIN="goerli"       # Chain - must be one of wagmi/chains
+TOKEN_ADDRESS=""                 # Optional token - will use ETH if not set
+TOKEN_DECIMALS="18"              # Defaults to 18 - be mindful that some tokens (USDC) uses 6 decimals
+TOKEN_AMOUNT="0.001"             # Amount of ETH or tokens to transfer
+RATELIMIT="24"                   # How often token requests can be made
 
-NEXT_PUBLIC_GC_API_URL=""       # Gitcoin Passport API URL
-NEXT_PUBLIC_GC_API_KEY=""       # Gitcoin Passport API key
-NEXT_PUBLIC_GC_SCORER_ID=""     # Gitcoin Passport Scorer ID
-NEXT_PUBLIC_SCORE_THRESHOLD="10"
+NEXT_PUBLIC_GC_API_URL=""        # Gitcoin Passport API URL
+NEXT_PUBLIC_GC_API_KEY=""        # Gitcoin Passport API key
+NEXT_PUBLIC_GC_SCORER_ID=""      # Gitcoin Passport Scorer ID
+NEXT_PUBLIC_SCORE_THRESHOLD="10" # Gitcoin Passport Score must be > this threshold to request tokens
 
-RATELIMIT="24" # In hours
-NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=""
+UPSTASH_REDIS_REST_URL=""        # Upstash database URL
+UPSTASH_REDIS_REST_TOKEN=""      # Upstash access token
 
-UPSTASH_REDIS_REST_URL=""
-UPSTASH_REDIS_REST_TOKEN=""
 ```
 
 ### Folder structure
