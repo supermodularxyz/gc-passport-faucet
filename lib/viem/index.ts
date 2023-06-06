@@ -55,8 +55,9 @@ export function createInfoMessage({
   mnemonic,
 }: z.infer<typeof ConfigSchema>) {
   const { address } = mnemonicToAccount(mnemonic);
+  const isTempWallet = !process.env.WALLET_MNEMONIC;
 
-  return { address, amount, chain, ratelimit, token };
+  return { address, amount, chain, ratelimit, token, isTempWallet };
 }
 
 const abi = [

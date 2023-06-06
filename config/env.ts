@@ -2,7 +2,7 @@ import z from "zod";
 import * as chains from "viem/chains";
 
 import dotenv from "dotenv";
-import { mnemonicToAccount } from "viem/accounts";
+import { english, generateMnemonic, mnemonicToAccount } from "viem/accounts";
 dotenv.config();
 
 export const ConfigSchema = z.object({
@@ -14,7 +14,7 @@ export const ConfigSchema = z.object({
     .gt(0)
     .transform((v) => Number(v)),
   amount: z.number().gt(0),
-  decimals: z.number().min(1).optional(),
+  decimals: z.number().min(1),
   chain: z.enum(Object.keys(chains) as any),
   mnemonic: z.string().refine(
     (m) => {
@@ -39,9 +39,9 @@ export const config = {
   amount: Number(process.env.TOKEN_AMOUNT),
   decimals: process.env.TOKEN_DECIMALS
     ? Number(process.env.TOKEN_DECIMALS)
-    : undefined,
+    : 18,
   chain: (process.env.NEXT_PUBLIC_CHAIN || "goerli") as any,
-  mnemonic: process.env.WALLET_MNEMONIC as string,
+  mnemonic: process.env.WALLET_MNEMONIC || generateMnemonic(english),
 };
 
 const res = ConfigSchema.safeParse(config);

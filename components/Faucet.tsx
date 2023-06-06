@@ -1,7 +1,7 @@
 "use client";
-import axios from "axios";
+
 import { PropsWithChildren } from "react";
-import { useAccount, useBalance, useMutation, useToken } from "wagmi";
+import { useBalance, useToken } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import { usePassport } from "lib/passport/hooks";
@@ -16,11 +16,12 @@ function formatScore(score?: string) {
 }
 export function PassportScore() {
   const { score, submit } = usePassport();
+
   return (
     <div className="flex items-center flex-col justify-center">
       <div className="uppercase">Passport score</div>
       <div className="text-4xl font-mono mb-4 flex gap-2">
-        {score.isLoading || submit.isLoading ? (
+        {score.isFetching || submit.isLoading ? (
           <Loading />
         ) : (
           formatScore(score.data?.score)
@@ -68,10 +69,14 @@ function FaucetInfo() {
     enabled: Boolean(info?.address),
   });
 
-  console.log("balance", balance.data);
-
   return (
     <div className="container max-screen-w-sm mx-auto">
+      {info.isTempWallet ? (
+        <div className="mb-4 text-red-800">
+          Warning: Faucet wallet has been generated randomly. Please configure
+          .env variables correctly before running in production.
+        </div>
+      ) : null}
       <div className="flex flex-col gap-1 text-sm ">
         <div>Faucet network: {info?.chain}</div>
         <div>Faucet address: {info?.address}</div>
@@ -86,11 +91,7 @@ function FaucetInfo() {
 }
 
 export function Faucet() {
-  const faucet = useFaucet();
   const { address, score } = usePassport();
-  console.log("faucet", faucet.data, faucet.error);
-  console.log("address", address);
-  console.log("score", score.data, score.error);
 
   return (
     <div>
@@ -106,32 +107,35 @@ export function Faucet() {
           label="3. Token request"
           disabled={!(Number(score.data?.score) >= threshold)}
         >
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-center">
-              <Button
-                onClick={() => faucet.mutate()}
-                disabled={faucet.isLoading}
-              >
-                Request tokens
-              </Button>
-            </div>
-
-            {faucet.data?.tx ? (
-              <div>
-                <div className="text-center mb-2">{faucet.data?.message}</div>
-                Transaction hash:{" "}
-                <pre className="text-sm">{faucet.data?.tx}</pre>
-              </div>
-            ) : null}
-            {faucet.error ? (
-              <pre className="whitespace-pre-wrap text-sm">
-                {JSON.stringify({ message: faucet.error }, null, 2)}
-              </pre>
-            ) : null}
-          </div>
+          <RequestTokens />
         </Section>
       </ol>
       <FaucetInfo />
+    </div>
+  );
+}
+
+function RequestTokens() {
+  const faucet = useFaucet();
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex justify-center">
+        <Button onClick={() => faucet.mutate()} disabled={faucet.isLoading}>
+          Request tokens
+        </Button>
+      </div>
+
+      {faucet.data?.tx ? (
+        <div>
+          <div className="text-center mb-2">{faucet.data?.message}</div>
+          Transaction hash: <pre className="text-sm">{faucet.data?.tx}</pre>
+        </div>
+      ) : null}
+      {faucet.error ? (
+        <pre className="whitespace-pre-wrap text-sm">
+          {JSON.stringify({ message: faucet.error }, null, 2)}
+        </pre>
+      ) : null}
     </div>
   );
 }
