@@ -9,7 +9,7 @@ An Ethereum faucet using Gitcoin Passport. Supports ETH and ERC20 tokens. Config
 1. Create a Gitcoin Passport scorer and api keys at https://scorer.gitcoin.co
 2. Create an Upstash account at https://upstash.com at get url and token
 3. Deploy to Vercel and configure environment variables (see below for more info)
-4. Create a faucet wallet and fund with tokens (`node wallet.mjs` to generate)
+4. Fund faucet wallet with tokens
 
 Configure environment variables:
 
@@ -67,6 +67,7 @@ UPSTASH_REDIS_REST_TOKEN=""
     /viem         # Transfer tokens
 /providers
     Wallet.tsx    # Web3 Wallet provider with RainbowKit, Wagmi and Viem
+wallet.mjs        # Generate a new wallet mnemonic - run with `node wallet.mjs`
 ```
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
