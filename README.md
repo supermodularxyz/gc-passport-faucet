@@ -11,6 +11,8 @@ An Ethereum faucet using Gitcoin Passport. Supports ETH and ERC20 tokens. Config
 3. Deploy to Vercel and configure environment variables (see below for more info)
 4. Fund faucet wallet with tokens
 
+## Running locally
+
 Configure environment variables:
 
 ```bash
