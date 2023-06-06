@@ -71,7 +71,7 @@ function FaucetInfo() {
 
   return (
     <div className="container max-screen-w-sm mx-auto">
-      {info.isTempWallet ? (
+      {info?.isTempWallet ? (
         <div className="mb-4 text-red-800">
           Warning: Faucet wallet has been generated randomly. Please configure
           .env variables correctly before running in production.
