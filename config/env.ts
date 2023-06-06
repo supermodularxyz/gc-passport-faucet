@@ -40,7 +40,7 @@ export const config = {
   decimals: process.env.TOKEN_DECIMALS
     ? Number(process.env.TOKEN_DECIMALS)
     : undefined,
-  chain: (process.env.NEXT_PUBLIC_CHAIN || "hardhat") as any,
+  chain: (process.env.NEXT_PUBLIC_CHAIN || "goerli") as any,
   mnemonic: process.env.WALLET_MNEMONIC as string,
 };
 
