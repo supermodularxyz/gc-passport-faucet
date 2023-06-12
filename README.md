@@ -51,6 +51,25 @@ UPSTASH_REDIS_REST_TOKEN=""      # Upstash access token
 
 ```
 
+## Theming
+
+Open `tailwind.config.js` and update the colors.
+
+```json
+{
+  "theme": {
+    "extend": {
+      "colors": {
+        "primary": "#6935FF",
+        "secondary": "#02E2AC",
+        "border": "#4D5E80",
+        "background": "#202836"
+      }
+    }
+  }
+}
+```
+
 ### Folder structure
 
 ```sh
@@ -69,6 +88,7 @@ UPSTASH_REDIS_REST_TOKEN=""      # Upstash access token
 /providers
     Wallet.tsx    # Web3 Wallet provider with RainbowKit, Wagmi and Viem
 wallet.mjs        # Generate a new wallet mnemonic - run with `node wallet.mjs`
+tailwind.config.s # Theme config
 ```
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

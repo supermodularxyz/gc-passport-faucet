@@ -1,13 +1,13 @@
 "use client";
 
-import { PropsWithChildren } from "react";
+import { useState } from "react";
 import { useBalance, useToken } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-
 import { usePassport } from "lib/passport/hooks";
 import { Button } from "./Button";
 import { useFaucet, useInfo } from "hooks/useFaucet";
-import { Loading } from "./Loading";
+import { ConnectWallet } from "./ConnectWallet";
+import { Panel, Panels } from "./Panels";
+import { Skeleton } from "./Skeleton";
 
 const threshold = Number(process.env.NEXT_PUBLIC_SCORE_THRESHOLD || 0);
 
@@ -19,13 +19,11 @@ export function PassportScore() {
 
   return (
     <div className="flex items-center flex-col justify-center">
-      <div className="uppercase">Passport score</div>
-      <div className="text-4xl font-mono mb-4 flex gap-2">
-        {score.isFetching || submit.isLoading ? (
-          <Loading />
-        ) : (
-          formatScore(score.data?.score)
-        )}
+      <div className="mb-2">Your passport score is</div>
+      <div className="text-5xl font-mono mb-4 flex gap-2 font-serif mb-8">
+        <Skeleton isLoading={score.isFetching || submit.isLoading}>
+          {formatScore(score.data?.score)}
+        </Skeleton>
 
         <span>/</span>
         {threshold}
@@ -38,21 +36,6 @@ export function PassportScore() {
         Refresh Passport
       </Button>
     </div>
-  );
-}
-
-function Section({
-  label,
-  children,
-  disabled,
-}: { label: string; disabled?: boolean } & PropsWithChildren) {
-  return (
-    <li style={disabled ? { opacity: 0.7, pointerEvents: "none" } : {}}>
-      <div className="mb-2 bg-primary-900 uppercase tracking-wider text-primary-50 text-center p-2">
-        {label}
-      </div>
-      <div className="flex justify-center p-8">{children}</div>
-    </li>
   );
 }
 
@@ -70,15 +53,15 @@ function FaucetInfo() {
   });
 
   return (
-    <div className="container max-screen-w-sm mx-auto">
+    <div className="container max-screen-w-sm mx-auto text-white/50">
       {info?.isTempWallet ? (
         <div className="mb-4 text-red-800">
           Warning: Faucet wallet has been generated randomly. Please configure
           .env variables correctly before running in production.
         </div>
       ) : null}
-      <div className="flex flex-col gap-1 text-sm ">
-        <div>Faucet network: {info?.chain}</div>
+      <div className="flex flex-col gap-1 text-sm font-mono">
+        <div className="font-mono">Faucet network: {info?.chain}</div>
         <div>Faucet address: {info?.address}</div>
         <div>Faucet balance: {balance.data?.formatted}</div>
         <div>
@@ -92,24 +75,25 @@ function FaucetInfo() {
 
 export function Faucet() {
   const { address, score } = usePassport();
+  const [step, setStep] = useState(0);
 
   return (
-    <div>
-      <ol className="flex gap-4 flex-col mb-8">
-        <Section label="1. Connect wallet">
-          <ConnectButton />
-        </Section>
-        <Section label="2. Passport check" disabled={!address}>
+    <div className="bg-background container max-w-screen-sm mx-auto p-8 border border-border rounded-lg flex flex-col gap-8">
+      <Panels current={step} onNext={() => setStep((s) => s + 1)}>
+        <Panel title="Connect Wallet">
+          <ConnectWallet />
+        </Panel>
+        <Panel title="Passport Check" disabled={!address}>
           <PassportScore />
-        </Section>
-
-        <Section
-          label="3. Token request"
+        </Panel>
+        <Panel
+          title="Token Request"
           disabled={!(Number(score.data?.score) >= threshold)}
         >
           <RequestTokens />
-        </Section>
-      </ol>
+        </Panel>
+      </Panels>
+
       <FaucetInfo />
     </div>
   );

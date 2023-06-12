@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: theme("colors.primary");
+  --color-secondary: theme("colors.secondary");
+  --color-background: theme("colors.background");
+  --color-border: theme("colors.border");
+}
+
 * {
   /* outline: 1px solid rgba(0, 0, 200, 0.1); */
 }

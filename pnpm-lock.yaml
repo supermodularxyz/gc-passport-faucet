@@ -25,6 +25,9 @@ dependencies:
   axios:
     specifier: ^1.4.0
     version: 1.4.0
+  clsx:
+    specifier: ^1.2.1
+    version: 1.2.1
   eslint:
     specifier: 8.41.0
     version: 8.41.0
