@@ -6,8 +6,8 @@ An Ethereum faucet using Gitcoin Passport for sybil resistence. Supports ETH and
 
 ## Getting Started
 
-1. Create a Gitcoin Passport scorer and api keys at https://scorer.gitcoin.co
-2. Create an Upstash account at https://upstash.com and get url and token
+1. Create a Gitcoin Passport scorer and api keys at https://scorer.gitcoin.co (recommended Scorer Mechanism: Unique Humanity)
+2. Create an Upstash account at https://upstash.com, create a new database + get its url and get an API token ( https://console.upstash.com/account/api ).
 3. Deploy to Vercel and configure environment variables (see below for more info)
 4. Fund faucet wallet with tokens
 
@@ -34,18 +34,26 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Environment variables
 
 ```sh
+### FAUCET VARIABLES
 WALLET_MNEMONIC=""               # Wallet containing tokens
+                                 # Generate one here: https://getcoinplate.com/bip39-seed-phrase-mnemonics-generator-offline-online-tool/
+
 NEXT_PUBLIC_CHAIN="goerli"       # Chain - must be one of wagmi/chains
+                                 # get one here: https://chainlist.org/?testnets=true
+
+### TOKEN VARIABLES
 TOKEN_ADDRESS=""                 # Optional token - will use ETH if not set
 TOKEN_DECIMALS="18"              # Defaults to 18 - be mindful that some tokens (USDC) uses 6 decimals
 TOKEN_AMOUNT="0.001"             # Amount of ETH or tokens to transfer
 RATELIMIT="24"                   # How often token requests can be made (in hours)
 
-NEXT_PUBLIC_GC_API_URL=""        # Gitcoin Passport API URL
+### PASSPORT SCORER VARIABLES ( https://scorer.gitcoin.co/#/dashboard/scorer )
+NEXT_PUBLIC_GC_API_URL=""        # Optional - Gitcoin Passport API URL
 NEXT_PUBLIC_GC_API_KEY=""        # Gitcoin Passport API key
 NEXT_PUBLIC_GC_SCORER_ID=""      # Gitcoin Passport Scorer ID
 NEXT_PUBLIC_SCORE_THRESHOLD="10" # Gitcoin Passport Score must be > this threshold to request tokens
 
+### UPSTASH VARIABLES ( https://console.upstash.com/account/api )
 UPSTASH_REDIS_REST_URL=""        # Upstash database URL
 UPSTASH_REDIS_REST_TOKEN=""      # Upstash access token
 
