@@ -125,7 +125,9 @@ function RequestTokens() {
 
       {faucet.data?.tx ? (
         <div>
-          <div className="text-center mb-2">{faucet.data?.message}</div>
+          <div className="text-center mb-2 font-bold">
+            {faucet.data?.message}
+          </div>
           Transaction hash: <pre className="text-sm">{faucet.data?.tx}</pre>
         </div>
       ) : null}

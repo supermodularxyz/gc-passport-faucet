@@ -44,7 +44,7 @@ export async function transferTokens({
 }
 
 export function createMessage({ amount, token }: z.infer<typeof ConfigSchema>) {
-  return `${amount} ${token ? "tokens" : "ETH"} transferred!`;
+  return `${amount} ${token ? "tokens" : "ETH"} Transferred`;
 }
 
 export function createInfoMessage({
