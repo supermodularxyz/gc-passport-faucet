@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useBalance, useToken } from "wagmi";
 import { usePassport } from "lib/passport/hooks";
-import { Button } from "./Button";
+import { Button } from "./ui/Button";
 import { useFaucet, useInfo } from "hooks/useFaucet";
 import { ConnectWallet } from "./ConnectWallet";
 import { Panel, Panels } from "./Panels";
@@ -77,23 +77,33 @@ export function Faucet() {
   const { address, score } = usePassport();
   const [step, setStep] = useState(0);
 
-  return (
-    <div className="bg-background container max-w-screen-sm mx-auto p-8 border border-border rounded-lg flex flex-col gap-8">
-      <Panels current={step} onNext={() => setStep((s) => s + 1)}>
-        <Panel title="Connect Wallet">
-          <ConnectWallet />
-        </Panel>
-        <Panel title="Passport Check" disabled={!address}>
-          <PassportScore />
-        </Panel>
-        <Panel
-          title="Token Request"
-          disabled={!(Number(score.data?.score) >= threshold)}
-        >
-          <RequestTokens />
-        </Panel>
-      </Panels>
+  useEffect(() => {
+    // if (address) setStep(1);
+  }, [address]);
 
+  return (
+    <div className="container max-w-screen-sm mx-auto">
+      <div
+        className="mb-12 bg-background p-8 border border-border rounded-lg flex flex-col gap-8"
+        style={{
+          minHeight: 526,
+        }}
+      >
+        <Panels current={step} onNext={() => setStep((s) => s + 1)}>
+          <Panel title="Connect Wallet">
+            <ConnectWallet />
+          </Panel>
+          <Panel title="Passport Check" disabled={!address}>
+            <PassportScore />
+          </Panel>
+          <Panel
+            title="Token Request"
+            disabled={!(Number(score.data?.score) >= threshold)}
+          >
+            <RequestTokens />
+          </Panel>
+        </Panels>
+      </div>
       <FaucetInfo />
     </div>
   );
@@ -104,7 +114,11 @@ function RequestTokens() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-center">
-        <Button onClick={() => faucet.mutate()} disabled={faucet.isLoading}>
+        <Button
+          color="primary"
+          onClick={() => faucet.mutate()}
+          disabled={faucet.isLoading}
+        >
           Request tokens
         </Button>
       </div>

@@ -2,6 +2,7 @@
 
 import { Children, PropsWithChildren } from "react";
 import { clsx } from "clsx";
+import { Button } from "./ui/Button";
 
 export function Panels({
   children,
@@ -13,17 +14,18 @@ export function Panels({
   const disabled = current === panels.length || isNextDisabled;
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center relative justify-between flex-1">
+      <div className="absolute h-[1px] bg-border w-4/5 top-5 " />
       <ol className="flex w-full justify-between mb-16">
         {panels.map((item: any, i) => (
-          <li key={i}>
+          <li key={i} className="z-10">
             <div className="flex justify-center mb-2">
               <div
                 className={clsx(
                   "w-10 h-10 flex justify-center items-center rounded-full border-2 font-bold",
                   {
-                    "border-secondary": i === current,
-                    "border-border": i > current,
+                    "border-secondary bg-background": i === current,
+                    "border-border bg-background": i > current,
                     "bg-disabled border-disabled  text-background ":
                       current > i,
                   }
@@ -47,7 +49,8 @@ export function Panels({
 
       {current < panels.length - 1 ? (
         // Hide last Next button
-        <a
+        <Button
+          color="primary"
           href="#"
           onClick={() => {
             if (!disabled) onNext();
@@ -57,7 +60,7 @@ export function Panels({
           })}
         >
           Next
-        </a>
+        </Button>
       ) : null}
     </div>
   );

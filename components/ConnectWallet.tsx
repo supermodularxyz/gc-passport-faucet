@@ -1,5 +1,5 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Button } from "./Button";
+import { Button } from "./ui/Button";
 
 export function ConnectWallet() {
   return (
@@ -35,15 +35,23 @@ export function ConnectWallet() {
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal} type="button">
+                  <Button
+                    color="primary"
+                    onClick={openConnectModal}
+                    type="button"
+                  >
                     Connect Wallet
                   </Button>
                 );
               }
               if (chain.unsupported) {
                 return (
-                  <Button onClick={openChainModal} type="button">
-                    Wrong network
+                  <Button
+                    color="primary"
+                    onClick={openChainModal}
+                    type="button"
+                  >
+                    Switch network
                   </Button>
                 );
               }
