@@ -7,7 +7,7 @@ An Ethereum faucet using Gitcoin Passport. Supports ETH and ERC20 tokens. Config
 ## Getting Started
 
 1. Create a Gitcoin Passport scorer and api keys at https://scorer.gitcoin.co
-2. Create an Upstash account at https://upstash.com at get url and token
+2. Create an Upstash account at https://upstash.com and get url and token
 3. Deploy to Vercel and configure environment variables (see below for more info)
 4. Fund faucet wallet with tokens
 
@@ -39,7 +39,7 @@ NEXT_PUBLIC_CHAIN="goerli"       # Chain - must be one of wagmi/chains
 TOKEN_ADDRESS=""                 # Optional token - will use ETH if not set
 TOKEN_DECIMALS="18"              # Defaults to 18 - be mindful that some tokens (USDC) uses 6 decimals
 TOKEN_AMOUNT="0.001"             # Amount of ETH or tokens to transfer
-RATELIMIT="24"                   # How often token requests can be made
+RATELIMIT="24"                   # How often token requests can be made (in hours)
 
 NEXT_PUBLIC_GC_API_URL=""        # Gitcoin Passport API URL
 NEXT_PUBLIC_GC_API_KEY=""        # Gitcoin Passport API key
