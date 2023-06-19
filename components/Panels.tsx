@@ -61,7 +61,9 @@ export function Panels({
         >
           Next
         </Button>
-      ) : null}
+      ) : (
+        <div />
+      )}
     </div>
   );
 }
