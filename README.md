@@ -41,7 +41,7 @@ TOKEN_DECIMALS="18"              # Defaults to 18 - be mindful that some tokens 
 TOKEN_AMOUNT="0.001"             # Amount of ETH or tokens to transfer
 RATELIMIT="24"                   # How often token requests can be made (in hours)
 
-NEXT_PUBLIC_GC_API_URL=""        # Gitcoin Passport API URL
+NEXT_PUBLIC_GC_API_URL="https://api.scorer.gitcoin.co/registry"
 NEXT_PUBLIC_GC_API_KEY=""        # Gitcoin Passport API key
 NEXT_PUBLIC_GC_SCORER_ID=""      # Gitcoin Passport Scorer ID
 NEXT_PUBLIC_SCORE_THRESHOLD="10" # Gitcoin Passport Score must be > this threshold to request tokens
