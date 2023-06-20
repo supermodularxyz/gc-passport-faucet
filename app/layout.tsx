@@ -5,6 +5,7 @@ import { PassportProvider } from "lib/passport/Provider";
 import { WalletProvider } from "providers/Wallet";
 
 import { Libre_Franklin, Playfair_Display } from "next/font/google";
+import { ComponentPropsWithoutRef } from "react";
 
 const sans = Libre_Franklin({
   subsets: ["latin"],
@@ -27,10 +28,31 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           <PassportProvider>{props.children}</PassportProvider>
         </WalletProvider>
         <Background />
+        <footer className="text-white/60 mt-8 container mx-auto max-w-screen-lg p-4 text-xs">
+          <div className="flex gap-1 text-center justify-center">
+            <span>made with &lt;3 at</span>
+            <A href={`https://supermodular.xyz`}>supermodular.xyz</A>
+            <span>|</span>
+            <A href={"https://github.com/supermodularxyz/gc-passport-faucet"}>
+              see the code
+            </A>
+            <span>|</span>
+            <A
+              href={
+                "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsupermodularxyz%2Fgc-passport-faucet&env=WALLET_MNEMONIC,NEXT_PUBLIC_CHAIN,TOKEN_AMOUNT,NEXT_PUBLIC_GC_API_KEY,NEXT_PUBLIC_GC_SCORER_ID,NEXT_PUBLIC_SCORE_THRESHOLD,RATELIMIT,UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN"
+              }
+            >
+              deploy your own faucet
+            </A>
+          </div>
+        </footer>
       </body>
     </html>
   );
 }
+const A = (props: ComponentPropsWithoutRef<"a">) => (
+  <a className="text-white hover:text-secondary" target="_blank" {...props} />
+);
 
 function Background() {
   return (
