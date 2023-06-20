@@ -1,4 +1,4 @@
 export const siteConfig = {
-  title: "Gitcoin Passport Faucet",
+  title: "Gitcoin Passport Gated Faucet",
   description: "",
 };

@@ -1,4 +1,4 @@
-# Gitcoin Passport Faucet
+# Gitcoin Passport-gated Faucet
 
 An Ethereum faucet using Gitcoin Passport for sybil resistence. Supports ETH and ERC20 tokens. Configurable network, score, ratelimit.
 
