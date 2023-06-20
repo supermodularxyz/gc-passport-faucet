@@ -49,16 +49,7 @@ export function Panels({
 
       {current < panels.length - 1 ? (
         // Hide last Next button
-        <Button
-          color="primary"
-          href="#"
-          onClick={() => {
-            if (!disabled) onNext();
-          }}
-          className={clsx({
-            "opacity-30 cursor-not-allowed": disabled,
-          })}
-        >
+        <Button color="primary" href="#" disabled={disabled} onClick={onNext}>
           Next
         </Button>
       ) : (

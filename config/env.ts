@@ -15,7 +15,16 @@ export const ConfigSchema = z.object({
     .transform((v) => Number(v)),
   amount: z.number().gt(0),
   decimals: z.number().min(1),
-  chain: z.enum(Object.keys(chains) as any),
+  chain: z.enum(Object.keys(chains) as any).or(
+    z.string().refine((str) => {
+      try {
+        JSON.parse(str);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    })
+  ),
   mnemonic: z.string().refine(
     (m) => {
       try {

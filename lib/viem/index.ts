@@ -20,9 +20,11 @@ export async function transferTokens({
   mnemonic,
 }: { to: Address } & z.infer<typeof ConfigSchema>) {
   const account = mnemonicToAccount(mnemonic);
+
+  const selectedChain = getChain(chain);
   const wallet = createWalletClient({
     account,
-    chain: chains[chain as keyof typeof chains],
+    chain: selectedChain,
     transport: http(),
   });
 
@@ -56,8 +58,20 @@ export function createInfoMessage({
 }: z.infer<typeof ConfigSchema>) {
   const { address } = mnemonicToAccount(mnemonic);
   const isTempWallet = !process.env.WALLET_MNEMONIC;
+  const configuredChain = getChain(chain).name;
 
-  return { address, amount, chain, ratelimit, token, isTempWallet };
+  return {
+    address,
+    amount,
+    chain: configuredChain,
+    ratelimit,
+    token,
+    isTempWallet,
+  };
+}
+
+function getChain(chain: string) {
+  return chains[chain as keyof typeof chains] || JSON.parse(chain);
 }
 
 const abi = [

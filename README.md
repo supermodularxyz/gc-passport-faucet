@@ -1,13 +1,13 @@
 # Gitcoin Passport Faucet
 
-An Ethereum faucet using Gitcoin Passport. Supports ETH and ERC20 tokens. Configurable network, score, ratelimit.
+An Ethereum faucet using Gitcoin Passport for sybil resistence. Supports ETH and ERC20 tokens. Configurable network, score, ratelimit.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsupermodularxyz%2Fgc-passport-faucet&env=WALLET_MNEMONIC,NEXT_PUBLIC_CHAIN,TOKEN_AMOUNT,NEXT_PUBLIC_GC_API_KEY,NEXT_PUBLIC_GC_SCORER_ID,NEXT_PUBLIC_SCORE_THRESHOLD,RATELIMIT,UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN)
 
 ## Getting Started
 
-1. Create a Gitcoin Passport scorer and api keys at https://scorer.gitcoin.co
-2. Create an Upstash account at https://upstash.com and get url and token
+1. Create a Gitcoin Passport scorer and api keys at https://scorer.gitcoin.co (recommended Scorer Mechanism: Unique Humanity)
+2. Create an Upstash account at https://upstash.com, create a new database + get its url and get an API token ( https://console.upstash.com/account/api ).
 3. Deploy to Vercel and configure environment variables (see below for more info)
 4. Fund faucet wallet with tokens
 
@@ -34,18 +34,27 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Environment variables
 
 ```sh
+### FAUCET VARIABLES
 WALLET_MNEMONIC=""               # Wallet containing tokens
-NEXT_PUBLIC_CHAIN="goerli"       # Chain - must be one of wagmi/chains
+                                 # Generate one here: https://getcoinplate.com/bip39-seed-phrase-mnemonics-generator-offline-online-tool/
+
+NEXT_PUBLIC_CHAIN="goerli"       # Chain to connect faucet wallet to
+                                 # List of supported chains: https://github.com/wagmi-dev/references/blob/main/packages/chains/README.md#chains)
+                                 # Advanced experimental: specify a configuration object for an unsupported chain
+
+### TOKEN VARIABLES
 TOKEN_ADDRESS=""                 # Optional token - will use ETH if not set
 TOKEN_DECIMALS="18"              # Defaults to 18 - be mindful that some tokens (USDC) uses 6 decimals
 TOKEN_AMOUNT="0.001"             # Amount of ETH or tokens to transfer
 RATELIMIT="24"                   # How often token requests can be made (in hours)
 
-NEXT_PUBLIC_GC_API_URL="https://api.scorer.gitcoin.co/registry"
+### PASSPORT SCORER VARIABLES ( https://scorer.gitcoin.co/#/dashboard/scorer )
+NEXT_PUBLIC_GC_API_URL=""        # Optional - Gitcoin Passport API URL (defaults to https://api.scorer.gitcoin.co/registry)
 NEXT_PUBLIC_GC_API_KEY=""        # Gitcoin Passport API key
 NEXT_PUBLIC_GC_SCORER_ID=""      # Gitcoin Passport Scorer ID
 NEXT_PUBLIC_SCORE_THRESHOLD="10" # Gitcoin Passport Score must be > this threshold to request tokens
 
+### UPSTASH VARIABLES ( https://console.upstash.com/account/api )
 UPSTASH_REDIS_REST_URL=""        # Upstash database URL
 UPSTASH_REDIS_REST_TOKEN=""      # Upstash access token
 
@@ -91,4 +100,24 @@ wallet.mjs        # Generate a new wallet mnemonic - run with `node wallet.mjs`
 tailwind.config.s # Theme config
 ```
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Configure an unsupported chain (experimental)
+
+You can configure a new **EVM-compatible** chain in the following format.
+
+```js
+JSON.stringify({
+  id: 58008,
+  name: "PGN",
+  network: "pgn",
+  nativeCurrency: { name: "Ether", symbol: "gETH", decimals: 18 },
+  rpcUrls: {
+    default: { http: ["https://l2-pgn-sepolia-i4td3ji6i0.t.conduit.xyz"] },
+    public: { http: ["https://l2-pgn-sepolia-i4td3ji6i0.t.conduit.xyz"] },
+  },
+});
+```
+
+```sh
+# Add output string here:
+NEXT_PUBLIC_CHAIN=<JSON>
+```

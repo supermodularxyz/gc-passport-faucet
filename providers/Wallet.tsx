@@ -19,8 +19,11 @@ import { siteConfig } from "config/site";
 
 const chain = process.env.NEXT_PUBLIC_CHAIN || "goerli";
 
+const configuredChain =
+  ALL_CHAINS[chain as keyof typeof ALL_CHAINS] || JSON.parse(chain);
+
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [ALL_CHAINS[chain as keyof typeof ALL_CHAINS]],
+  [configuredChain],
   [publicProvider()]
 );
 
