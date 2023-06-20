@@ -107,12 +107,12 @@ You can configure a new **EVM-compatible** chain in the following format.
 ```js
 JSON.stringify({
   id: 58008,
-  name: "PGN",
-  network: "pgn",
-  nativeCurrency: { name: "Ether", symbol: "gETH", decimals: 18 },
+  name: "Chain Name",
+  network: "name",
+  nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
   rpcUrls: {
-    default: { http: ["https://l2-pgn-sepolia-i4td3ji6i0.t.conduit.xyz"] },
-    public: { http: ["https://l2-pgn-sepolia-i4td3ji6i0.t.conduit.xyz"] },
+    default: { http: ["https://..."] },
+    public: { http: ["https://..."] },
   },
 });
 ```
