@@ -4,6 +4,10 @@ An Ethereum faucet using Gitcoin Passport for sybil resistence. Supports ETH and
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsupermodularxyz%2Fgc-passport-faucet&env=WALLET_MNEMONIC,NEXT_PUBLIC_CHAIN,TOKEN_AMOUNT,NEXT_PUBLIC_GC_API_KEY,NEXT_PUBLIC_GC_SCORER_ID,NEXT_PUBLIC_SCORE_THRESHOLD,RATELIMIT,UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN)
 
+## Demo
+
+https://gc-passport-faucet.vercel.app/
+
 ## Getting Started
 
 1. Create a Gitcoin Passport scorer and api keys at https://scorer.gitcoin.co (recommended Scorer Mechanism: Unique Humanity)
