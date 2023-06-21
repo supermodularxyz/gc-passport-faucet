@@ -125,3 +125,8 @@ JSON.stringify({
 # Add output string here:
 NEXT_PUBLIC_CHAIN=<JSON>
 ```
+
+## Liscense
+
+GPLv4 - Free and Open Source, use at your own risk.
+
