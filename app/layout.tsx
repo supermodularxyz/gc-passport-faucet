@@ -23,7 +23,7 @@ export const metadata = { ...siteConfig };
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${sans.variable} ${serif.variable}`}>
-      <body className={`bg-background text-white font-sans`}>
+      <body className={`bg-background text-text font-sans`}>
         <WalletProvider>
           <PassportProvider>{props.children}</PassportProvider>
         </WalletProvider>

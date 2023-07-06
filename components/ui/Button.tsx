@@ -2,11 +2,12 @@ import { createComponent } from ".";
 import { tv } from "tailwind-variants";
 
 const button = tv({
-  base: "inline-flex justify-center items-center tracking-wide text-gray-50 rounded-full active:opacity-90 transition-opacity disabled:cursor-default disabled:opacity-60 disabled:pointer-events-none",
+  base: "inline-flex justify-center items-center tracking-wide text-gray-50 rounded active:opacity-90 transition-opacity disabled:cursor-default disabled:opacity-60 disabled:pointer-events-none",
   variants: {
     color: {
-      default: "border border-primary hover:opacity-80",
-      primary: "bg-primary text-white hover:opacity-80",
+      default:
+        "border bg-button-light text-button-dark border-primary hover:opacity-80",
+      primary: "bg-button-dark text-button-light hover:opacity-80",
     },
     size: {
       sm: "p-2 text-sm",
