@@ -6,7 +6,7 @@ const button = tv({
   variants: {
     color: {
       default:
-        "border bg-button-light text-button-dark border-primary hover:opacity-80",
+        "border bg-button-light text-button-dark border-button-dark hover:opacity-80",
       primary: "bg-button-dark text-button-light hover:opacity-80",
     },
     size: {
