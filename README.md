@@ -1,6 +1,6 @@
 # Gitcoin Passport-gated Faucet
 
-An Ethereum faucet using Gitcoin Passport for sybil resistence. Supports ETH and ERC20 tokens. Configurable network, score, ratelimit.
+An Ethereum faucet using Gitcoin Passport for sybil resistance. Supports ETH and ERC20 tokens. Configurable network, score, ratelimit.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsupermodularxyz%2Fgc-passport-faucet&env=WALLET_MNEMONIC,NEXT_PUBLIC_CHAIN,TOKEN_AMOUNT,NEXT_PUBLIC_GC_API_KEY,NEXT_PUBLIC_GC_SCORER_ID,NEXT_PUBLIC_SCORE_THRESHOLD,RATELIMIT,UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN)
 
@@ -126,7 +126,7 @@ JSON.stringify({
 NEXT_PUBLIC_CHAIN=<JSON>
 ```
 
-## Liscense
+## License
 
 GPLv4 - Free and Open Source, use at your own risk.
 
